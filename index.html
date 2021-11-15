@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section id="form">
+        <p class="text">Login</p>
+        <input type="text" id="login-input" class="input">
+        <p class="text">Password</p>
+        <input type="password" id="password-input" class="input">
+        <p class="text">Email address</p>
+        <input type="text" id="email-input" class="input"><br>
+        <input type="submit" value="Add User" id="submit" class="submit_button">
+        <input type="submit" value="Edit User" id="submit" class=" edit-user_button hidden">
+        <button class="question question_hide">
+            <p class="question_mark ">?</p>
+        </button>
+    </section>
+
+    <section id="table">
+        <table class="table" id="user-list">
+            <tbody>
+                <tr class="tr">
+                    <td id="number">#</td>
+                    <td id="user_login">Login</td>
+                    <td id="user_password">Password</td>
+                    <td id="user_email">Email</td>
+                    <td id="edit">Edit</td>
+                    <td id="delete">Delete</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" data-close="close">&times;</span>
+                <h3 class="main">Ваш логин должен быть:</h3>
+                <p> - cлово латинскими буквами длиной от 2 до 20. Цифры и другие символы не допускаются.</p>
+                <h3 class="main">Ваш пароль должен быть:</h3>
+                <p> - от 8 до 15 латинских букв, цифр и нижних подчеркиваний</p>
+                <h3 class="main">Ваш адрес электронной почты дожен быть:</h3>
+                <p> - имя пользователя и домен, разделенные символом '@'. Обе части состоят из слов, разделенных '.'.
+                    Слова состоят из латинских букв, цифр и нижних подчеркиваний.</p>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+
+</html>
