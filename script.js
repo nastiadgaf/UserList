@@ -9,6 +9,10 @@ let modal = document.querySelector('#myModal');
 let closeButton = document.querySelector('.close');
 let question = document.querySelector('.question');
 
+loginInput.value = 'nastia'
+passwordInput.value = 'Asdf_-123'
+emailInput.value = 'nastiadgaf@gmail.com'
+
 let currentRow = null;
 
 class User {
@@ -22,17 +26,20 @@ class User {
     static userList = []
 
     dataFields = [{
-            value: this.loginVal,
+            objName: 'login',
+            value: loginInput.value,
             regExp: /[a-zA-Z]{1,20}$/,
             element: loginInput
         },
         {
-            value: this.passwordVal,
+            objName: 'password',
+            value: passwordInput.value,
             regExp: /(?=.*[0-9])(?=.*[a-z_])(?=.*[A-Z]){8,15}/g,
             element: passwordInput
         },
         {
-            value: this.emailVal,
+            objName: 'email',
+            value: emailInput.value,
             regExp: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
             element: emailInput
         }
@@ -74,29 +81,36 @@ class User {
             let ceil = document.createElement('td');
             ceil.classList.add('cell');
             ceil.classList.add(dataObject.name);
+            ceil.dataset.name = dataObject.name;
             ceil.innerHTML = dataObject.value;
             this.userRow.append(ceil);
+
+
+            let titlesOfInputCells = ['login', 'password', 'email'];
+
+            for (let title of titlesOfInputCells) {
+                for (let field of this.dataFields) {
+                    if (field["objName"] === title) {
+                        if (ceil.dataset.name === title)
+                            field["cells"] = [ceil];
+                    }
+                }
+            }
         }
-        
-          let titlesOfInputCells = ['login', 'password', 'email'];
-          
-        //   for(let title of titlesOfInputCells){
-        //         for(let field of this.dataFields){
-        //             if(field[value] == title)
-        //         }
-        //   }
-          
+
         userListTbody.append(this.userRow);
     }
 
     clearInputs() {
-        login.value = '';
-        password.value = '';
-        email.value = '';
+        loginInput.value = '';
+        passwordInput.value = '';
+        emailInput.value = '';
     }
 
     checkFields() {
-        return Boolean(this.loginVal.match(regexp) && this.passwordVal.match(regexp2) && this.email.match(regexp3))
+        return Boolean(this.loginVal.match(/[a-zA-Z]{1,20}$/) &&
+            this.passwordVal.match(/(?=.*[0-9])(?=.*[a-z_])(?=.*[A-Z]){8,15}/g) &&
+            this.emailVal.match(/^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/))
     }
 
 
