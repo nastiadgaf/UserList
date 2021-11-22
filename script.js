@@ -26,22 +26,29 @@ class User {
     static userList = []
 
     dataFields = [{
+            //cell: td.cell.login
             objName: 'login',
             value: loginInput.value,
             regExp: /[a-zA-Z]{1,20}$/,
-            element: loginInput
+            element: loginInput,
+            constructorVal: this.loginVal
         },
         {
+            //cell: td.cell.password
             objName: 'password',
             value: passwordInput.value,
             regExp: /(?=.*[0-9])(?=.*[a-z_])(?=.*[A-Z]){8,15}/g,
-            element: passwordInput
+            element: passwordInput,
+            constructorVal: this.passwordVal,
         },
         {
+            //cell: td.cell.email
             objName: 'email',
             value: emailInput.value,
             regExp: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
-            element: emailInput
+            element: emailInput,
+            constructorVal: this.emailVal
+
         }
     ]
 
@@ -91,8 +98,7 @@ class User {
             for (let title of titlesOfInputCells) {
                 for (let field of this.dataFields) {
                     if (field["objName"] === title) {
-                        if (ceil.dataset.name === title)
-                            field["cells"] = [ceil];
+                        if (ceil.dataset.name === title) field["cell"] = [ceil];
                     }
                 }
             }
@@ -145,13 +151,19 @@ class User {
     }
 
     fillInputs() {
-
-        currentRow.children[1].textContent = loginInput.value;
-        currentRow.children[2].textContent = passwordInput.value;
-        currentRow.children[3].textContent = emailInput.value;
-        this.loginVal = currentRow.children[1].textContent;
-        this.passwordVal = currentRow.children[2].textContent;
-        this.email = currentRow.children[3].textContent;
+       console.log(this.dataFields)
+        for (let field of this.dataFields) {
+            console.log(field["cell"])
+            field["cell"].innerHTML = field["element"];
+            field["constructorVal"] = field["cell"].innerHTML;
+        }
+        //console.log(this.dataFields)
+        // currentRow.children[1].textContent = loginInput.value;
+        // currentRow.children[2].textContent = passwordInput.value;
+        // currentRow.children[3].textContent = emailInput.value;
+        // this.loginVal = currentRow.children[1].textContent;
+        // this.passwordVal = currentRow.children[2].textContent;
+        // this.email = currentRow.children[3].textContent;
         currentRow = null;
         this.clearInputs();
 
@@ -160,7 +172,7 @@ class User {
     editUser() {
         loginInput.value = this.loginVal;
         passwordInput.value = this.passwordVal;
-        emailInput.value = this.email;
+        emailInput.value = this.emailVal;
     }
 
     deleteUser() {
@@ -198,37 +210,57 @@ document.addEventListener('click', function (e) {
         return userObj;
     }
 
-    function checkClassName(name) {
-        return e.target.classList.contains(name);
+    if (e.target.classList.contains('submit_button')) {
+        let userObj = new User();
+        userObj.request();
+    } else if (e.target.classList.contains('edit_button')) {
+        getUserById(e.target.closest('tr'));
+        userObj.editUser();
+        userObj.changeEditBtn();
+    } else if (e.target.classList.contains('delete_button')) {
+        getUserById(e.target.closest('tr'));
+        userObj.deleteUser();
+    } else if (e.target.classList.contains('edit-user_button')) {
+        getUserById(currentRow);
+        userObj.checkEditField();
+        userObj.changeAddBtn();
+    } else if (e.target.classList.contains('close')) {
+        modal.classList.add('hidden');
+    } else if (e.target.classList.contains('question')) {
+        modal.classList.remove('hidden');
+        modal.classList.add('show');
     }
+    // function checkClassName(name) {
+    //     return e.target.classList.contains(name);
+    // }
 
-    switch (true) {
-        case checkClassName('submit_button'):
-            let userObj = new User();
-            userObj.request();
-            break;
-        case checkClassName('edit_button'):
-            getUserById(e.target.closest('tr'));
-            userObj.editUser();
-            userObj.changeEditBtn();
-            break;
-        case checkClassName('delete_button'):
-            getUserById(e.target.closest('tr'));
-            userObj.deleteUser();
-            break;
-        case checkClassName('edit-user_button'):
-            getUserById(currentRow);
-            userObj.checkEditField();
-            userObj.changeAddBtn();
-            break;
-        case checkClassName('close'):
-            modal.classList.add('hidden');
-            break;
-        case checkClassName('question'):
-            modal.classList.remove('hidden');
-            modal.classList.add('show');
-            break;
-    }
+    // switch (true) {
+    //     case checkClassName('submit_button'):
+    //         let userObj = new User();
+    //         userObj.request();
+    //         break;
+    //     case checkClassName('edit_button'):
+    //         getUserById(e.target.closest('tr'));
+    //         userObj.editUser();
+    //         userObj.changeEditBtn();
+    //         break;
+    //     case checkClassName('delete_button'):
+    //         getUserById(e.target.closest('tr'));
+    //         userObj.deleteUser();
+    //         break;
+    //     case checkClassName('edit-user_button'):
+    //         getUserById(currentRow);
+    //         userObj.checkEditField();
+    //         userObj.changeAddBtn();
+    //         break;
+    //     case checkClassName('close'):
+    //         modal.classList.add('hidden');
+    //         break;
+    //     case checkClassName('question'):
+    //         modal.classList.remove('hidden');
+    //         modal.classList.add('show');
+    //         break;
+    // }
 
 
 });
