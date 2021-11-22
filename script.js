@@ -26,7 +26,6 @@ class User {
     static userList = []
 
     dataFields = [{
-            //cell: td.cell.login
             objName: 'login',
             value: loginInput.value,
             regExp: /[a-zA-Z]{1,20}$/,
@@ -34,7 +33,6 @@ class User {
             constructorVal: this.loginVal
         },
         {
-            //cell: td.cell.password
             objName: 'password',
             value: passwordInput.value,
             regExp: /(?=.*[0-9])(?=.*[a-z_])(?=.*[A-Z]){8,15}/g,
@@ -42,7 +40,6 @@ class User {
             constructorVal: this.passwordVal,
         },
         {
-            //cell: td.cell.email
             objName: 'email',
             value: emailInput.value,
             regExp: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
@@ -92,15 +89,8 @@ class User {
             ceil.innerHTML = dataObject.value;
             this.userRow.append(ceil);
 
-
-            let titlesOfInputCells = ['login', 'password', 'email'];
-
-            for (let title of titlesOfInputCells) {
-                for (let field of this.dataFields) {
-                    if (field["objName"] === title) {
-                        if (ceil.dataset.name === title) field["cell"] = [ceil];
-                    }
-                }
+            for(let field of this.dataFields){
+                if(field.objName === dataObject.name) field["cell"] = ceil;
             }
         }
 
@@ -151,19 +141,11 @@ class User {
     }
 
     fillInputs() {
-       console.log(this.dataFields)
         for (let field of this.dataFields) {
-            console.log(field["cell"])
-            field["cell"].innerHTML = field["element"];
+            field["cell"].innerHTML = field["element"].value;
             field["constructorVal"] = field["cell"].innerHTML;
         }
-        //console.log(this.dataFields)
-        // currentRow.children[1].textContent = loginInput.value;
-        // currentRow.children[2].textContent = passwordInput.value;
-        // currentRow.children[3].textContent = emailInput.value;
-        // this.loginVal = currentRow.children[1].textContent;
-        // this.passwordVal = currentRow.children[2].textContent;
-        // this.email = currentRow.children[3].textContent;
+
         currentRow = null;
         this.clearInputs();
 
