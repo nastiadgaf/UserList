@@ -210,57 +210,59 @@ document.addEventListener('click', function (e) {
         return userObj;
     }
 
-    if (e.target.classList.contains('submit_button')) {
-        let userObj = new User();
-        userObj.request();
-    } else if (e.target.classList.contains('edit_button')) {
-        getUserById(e.target.closest('tr'));
-        userObj.editUser();
-        userObj.changeEditBtn();
-    } else if (e.target.classList.contains('delete_button')) {
-        getUserById(e.target.closest('tr'));
-        userObj.deleteUser();
-    } else if (e.target.classList.contains('edit-user_button')) {
-        getUserById(currentRow);
-        userObj.checkEditField();
-        userObj.changeAddBtn();
-    } else if (e.target.classList.contains('close')) {
-        modal.classList.add('hidden');
-    } else if (e.target.classList.contains('question')) {
-        modal.classList.remove('hidden');
-        modal.classList.add('show');
+    // if (e.target.classList.contains('submit_button')) {
+    //     let userObj = new User();
+    //     userObj.request();
+    // } else if (e.target.classList.contains('edit_button')) {
+    //     getUserById(e.target.closest('tr'));
+    //     userObj.editUser();
+    //     userObj.changeEditBtn();
+    // } else if (e.target.classList.contains('delete_button')) {
+    //     getUserById(e.target.closest('tr'));
+    //     userObj.deleteUser();
+    // } else if (e.target.classList.contains('edit-user_button')) {
+    //     getUserById(currentRow);
+    //     userObj.checkEditField();
+    //     userObj.changeAddBtn();
+    // } else if (e.target.classList.contains('close')) {
+    //     modal.classList.add('hidden');
+    // } else if (e.target.classList.contains('question')) {
+    //     modal.classList.remove('hidden');
+    //     modal.classList.add('show');
+    // }
+    function checkClassName(name) {
+        return e.target.classList.contains(name);
     }
-    // function checkClassName(name) {
-    //     return e.target.classList.contains(name);
-    // }
 
-    // switch (true) {
-    //     case checkClassName('submit_button'):
-    //         let userObj = new User();
-    //         userObj.request();
-    //         break;
-    //     case checkClassName('edit_button'):
-    //         getUserById(e.target.closest('tr'));
-    //         userObj.editUser();
-    //         userObj.changeEditBtn();
-    //         break;
-    //     case checkClassName('delete_button'):
-    //         getUserById(e.target.closest('tr'));
-    //         userObj.deleteUser();
-    //         break;
-    //     case checkClassName('edit-user_button'):
-    //         getUserById(currentRow);
-    //         userObj.checkEditField();
-    //         userObj.changeAddBtn();
-    //         break;
-    //     case checkClassName('close'):
-    //         modal.classList.add('hidden');
-    //         break;
-    //     case checkClassName('question'):
-    //         modal.classList.remove('hidden');
-    //         modal.classList.add('show');
-    //         break;
-    // }
+    let isTrue = true;
+
+    switch (isTrue) {
+        case checkClassName('submit_button'):
+            let userObj = new User();
+            userObj.request();
+            break;
+        case checkClassName('edit_button'):
+            getUserById(e.target.closest('tr'));
+            userObj.editUser();
+            userObj.changeEditBtn();
+            break;
+        case checkClassName('delete_button'):
+            getUserById(e.target.closest('tr'));
+            userObj.deleteUser();
+            break;
+        case checkClassName('edit-user_button'):
+            getUserById(currentRow);
+            userObj.checkEditField();
+            userObj.changeAddBtn();
+            break;
+        case checkClassName('close'):
+            modal.classList.add('hidden');
+            break;
+        case checkClassName('question'):
+            modal.classList.remove('hidden');
+            modal.classList.add('show');
+            break;
+    }
 
 
 });
