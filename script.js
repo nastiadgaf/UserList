@@ -134,24 +134,25 @@ class User {
 
     checkEditField() {
         this.checkField()
-        this.checkFields()
         if (this.checkFields()) {
-            this.fillInputs();
+            this.finishEditingUser();
+        } else{
+            alert(1)
         }
     }
 
-    fillInputs() {
+    finishEditingUser() {
         for (let field of this.dataFields) {
             field["cell"].innerHTML = field["element"].value;
             field["constructorVal"] = field["cell"].innerHTML;
+            
         }
-
         currentRow = null;
         this.clearInputs();
 
     }
 
-    editUser() {
+    startEditingUser() {
         loginInput.value = this.loginVal;
         passwordInput.value = this.passwordVal;
         emailInput.value = this.emailVal;
@@ -179,9 +180,7 @@ class User {
         editBtn.classList.add('hidden');
     }
 
-
 }
-
 
 document.addEventListener('click', function (e) {
     function getUserById(target) {
@@ -209,7 +208,7 @@ document.addEventListener('click', function (e) {
             break;
         case 'edit_button':
             userObj = getUserById(e.target.closest('tr'));
-            userObj.editUser();
+            userObj.startEditingUser();
             userObj.changeEditBtn();
             break;
         case 'delete_button':
