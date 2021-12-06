@@ -30,21 +30,18 @@ class User {
             value: loginInput.value,
             regExp: /[a-zA-Z]{1,20}$/,
             element: loginInput,
-            constructorVal: this.loginVal
         },
         {
             objName: 'password',
             value: passwordInput.value,
             regExp: /(?=.*[0-9])(?=.*[a-z_])(?=.*[A-Z]){8,15}/g,
             element: passwordInput,
-            constructorVal: this.passwordVal,
         },
         {
             objName: 'email',
             value: emailInput.value,
             regExp: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
             element: emailInput,
-            constructorVal: this.emailVal
 
         }
     ]
@@ -104,9 +101,16 @@ class User {
     }
 
     checkFields() {
-        return Boolean(this.loginVal.match(/[a-zA-Z]{1,20}$/) &&
-            this.passwordVal.match(/(?=.*[0-9])(?=.*[a-z_])(?=.*[A-Z]){8,15}/g) &&
-            this.emailVal.match(/^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/))
+        let isAllCorrect = true;
+        for(let field of this.dataFields){
+            const {value, regExp} = field;
+            const isCorrect = value.match(regExp);
+
+            if(isCorrect) continue;
+            isAllCorrect = false;
+            break
+        }
+        return isAllCorrect;
     }
 
 
@@ -143,8 +147,8 @@ class User {
 
     finishEditingUser() {
         for (let field of this.dataFields) {
-            field["cell"].innerHTML = field["element"].value;
-            field["constructorVal"] = field["cell"].innerHTML;
+            field.cell.textContent = field.element.value;
+            field.value = field.cell.textContent;
             
         }
         currentRow = null;
