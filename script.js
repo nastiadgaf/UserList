@@ -52,22 +52,30 @@ class User {
         this.fillUserRow();
     }
 
+    getDataFieldValue(name){
+        const {dataFields} = this;
+        return dataFields.find(field => field.objName === name)
+    }
+
     fillUserRow() {
+        const {userList} = this.constructor;
+        
+
         let tableCeils = [{
                 name: 'id',
-                value: this.constructor.userList.length
+                value: userList.length
             },
             {
                 name: 'login',
-                value: this.loginVal
+                value: this.getDataFieldValue('login').value
             },
             {
                 name: 'password',
-                value: this.passwordVal
+                value: this.getDataFieldValue('password').value
             },
             {
                 name: 'email',
-                value: this.emailVal
+                value: this.getDataFieldValue('email').value
             },
             {
                 name: 'edit',
@@ -157,9 +165,9 @@ class User {
     }
 
     startEditingUser() {
-        loginInput.value = this.loginVal;
-        passwordInput.value = this.passwordVal;
-        emailInput.value = this.emailVal;
+        loginInput.value = this.getDataFieldValue('login').value;
+        passwordInput.value = this.getDataFieldValue('password').value;
+        emailInput.value = this.getDataFieldValue('email').value;
     }
 
     deleteUser() {
