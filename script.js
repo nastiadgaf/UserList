@@ -13,7 +13,7 @@ loginInput.value = 'nastia'
 passwordInput.value = 'Asdf_-123'
 emailInput.value = 'nastiadgaf@gmail.com'
 
-let currentRow = null;
+;
 
 class User {
     constructor() {
@@ -21,6 +21,7 @@ class User {
         this.passwordVal = passwordInput.value;
         this.emailVal = emailInput.value;
         this.constructor.userList.push(this);
+        this.currentRow = null
     }
 
     static userList = []
@@ -87,15 +88,15 @@ class User {
             }
         ];
         for (let dataObject of tableCeils) {
-            let ceil = document.createElement('td');
-            ceil.classList.add('cell');
-            ceil.classList.add(dataObject.name);
-            ceil.dataset.name = dataObject.name;
-            ceil.innerHTML = dataObject.value;
-            this.userRow.append(ceil);
+            let cell = document.createElement('td');
+            cell.classList.add('cell');
+            cell.classList.add(dataObject.name);
+            cell.dataset.name = dataObject.name;
+            cell.innerHTML = dataObject.value;
+            this.userRow.append(cell);
 
             for(let field of this.dataFields){
-                if(field.objName === dataObject.name) field["cell"] = ceil;
+                if(field.objName === dataObject.name) field["cell"] = cell;
             }
         }
 
@@ -149,7 +150,8 @@ class User {
         if (this.checkFields()) {
             this.finishEditingUser();
         } else{
-            alert(1)
+            question.classList.remove('question_hide');
+            question.classList.add('question_show');
         }
     }
 
@@ -159,7 +161,7 @@ class User {
             field.value = field.cell.textContent;
             
         }
-        currentRow = null;
+        this.currentRow = null;
         this.clearInputs();
 
     }
@@ -171,11 +173,11 @@ class User {
     }
 
     deleteUser() {
-        userListTbody.removeChild(currentRow);
-        let id = currentRow.children[0].textContent;
+        userListTbody.removeChild(this.currentRow);
+        let id = this.currentRow.children[0].textContent;
         id--;
         User.userList.splice(id, 1);
-        currentRow = null;
+        this.currentRow = null;
         for (let i = 1; i <= User.userList.length; i++) {
             let row = userListTbody.rows[i].cells[0];
             row.innerHTML = i;
@@ -188,8 +190,10 @@ class User {
     }
 
     changeAddBtn() {
-        submitButton.classList.remove('hidden');
-        editBtn.classList.add('hidden');
+        if(loginInput.value === '' && passwordInput.value === '' && emailInput.value === ''){
+            submitButton.classList.remove('hidden');
+            editBtn.classList.add('hidden');
+        }
     }
 
 }
@@ -197,7 +201,7 @@ class User {
 document.addEventListener('click', function (e) {
     function getUserById(target) {
         let row = target;
-        currentRow = row;
+        this.currentRow = row;
         let id = row.children[0].textContent;
         userObj = User.userList[--id];
         return userObj;
@@ -228,7 +232,7 @@ document.addEventListener('click', function (e) {
             userObj.deleteUser();
             break;
         case 'edit-user_button':
-            userObj = getUserById(currentRow);
+            userObj = getUserById(this.currentRow);
             userObj.checkEditField();
             userObj.changeAddBtn();
             break;
