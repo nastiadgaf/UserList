@@ -13,15 +13,13 @@ loginInput.value = 'nastia'
 passwordInput.value = 'Asdf_-123'
 emailInput.value = 'nastiadgaf@gmail.com'
 
-;
-
 class User {
     constructor() {
         this.loginVal = loginInput.value;
         this.passwordVal = passwordInput.value;
         this.emailVal = emailInput.value;
         this.constructor.userList.push(this);
-        this.currentRow = null
+        this.currentRow = null;
     }
 
     static userList = []
