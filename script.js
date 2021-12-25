@@ -22,6 +22,7 @@ class User {
         this.currentRow = null;
     }
 
+    static editingRow = this.currentRow;
     static userList = []
 
     dataFields = [{
@@ -60,7 +61,7 @@ class User {
         const {userList} = this.constructor;
         
 
-        let tableCeils = [{
+        let tableCells = [{
                 name: 'id',
                 value: userList.length
             },
@@ -85,7 +86,7 @@ class User {
                 value: '<button class="delete_button">Delete</button>'
             }
         ];
-        for (let dataObject of tableCeils) {
+        for (let dataObject of tableCells) {
             let cell = document.createElement('td');
             cell.classList.add('cell');
             cell.classList.add(dataObject.name);
@@ -121,7 +122,7 @@ class User {
     }
 
 
-    checkField() {
+    markValidateFields() {
         for (let exp of this.dataFields) {
             let isValid = exp.value.match(exp.regExp);
             let hasInvalidClass = exp.element.classList.contains('wrong');
@@ -130,7 +131,7 @@ class User {
     }
 
     request() {
-        this.checkField();
+        this.markValidateFields();
         if (this.checkFields()) {
             this.createUserRow();
             question.classList.add('question_hide');
@@ -143,8 +144,8 @@ class User {
         }
     }
 
-    checkEditField() {
-        this.checkField()
+    markEditingFields() {
+        this.markValidateFields()
         if (this.checkFields()) {
             this.finishEditingUser();
         } else{
@@ -198,9 +199,8 @@ class User {
 
 document.addEventListener('click', function (e) {
     function getUserById(target) {
-        let row = target;
-        this.currentRow = row;
-        let id = row.children[0].textContent;
+        this.currentRow = target;
+        let id = target.children[0].textContent;
         userObj = User.userList[--id];
         return userObj;
     }
@@ -231,7 +231,7 @@ document.addEventListener('click', function (e) {
             break;
         case 'edit-user_button':
             userObj = getUserById(this.currentRow);
-            userObj.checkEditField();
+            userObj.markEditingFields();
             userObj.changeAddBtn();
             break;
         case 'close':
