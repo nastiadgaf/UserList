@@ -177,16 +177,15 @@ class User {
     }
 
     deleteUser() {
-        userListTbody.removeChild(this.currentRow);
-        
-        let id = this.currentRow.children[0].textContent;
-        id--;
+        this.currentRow.remove();
+        let id = --this.currentRow.children[0].textContent;
         User.userList.splice(id, 1);
         this.currentRow = null;
         for (let i = 1; i <= User.userList.length; i++) {
             let row = userListTbody.rows[i].cells[0];
             row.innerHTML = i;
         }
+        delete this;
     }
 
     changeEditBtn() {
