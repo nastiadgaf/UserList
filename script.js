@@ -22,7 +22,7 @@ class User {
         this.currentRow = null;
     }
 
-    static editingRow = this.currentRow;
+    static editingRow = null;
     static userList = []
 
     dataFields = [{
@@ -49,6 +49,7 @@ class User {
     createUserRow() {
         this.userRow = document.createElement('tr');
         this.userRow.classList.add('tr_user');
+        this.currentRow = this.userRow
         this.fillUserRow();
     }
 
@@ -111,7 +112,9 @@ class User {
     checkFields() {
         let isAllCorrect = true;
         for(let field of this.dataFields){
+            
             const {value, regExp} = field;
+            console.log(field)
             const isCorrect = value.match(regExp);
 
             if(isCorrect) continue;
@@ -147,6 +150,7 @@ class User {
     markEditingFields() {
         this.markValidateFields()
         if (this.checkFields()) {
+            console.log(1)
             this.finishEditingUser();
         } else{
             question.classList.remove('question_hide');
@@ -160,19 +164,21 @@ class User {
             field.value = field.cell.textContent;
             
         }
-        this.currentRow = null;
         this.clearInputs();
 
     }
 
     startEditingUser() {
         loginInput.value = this.getDataFieldValue('login').value;
+        console.log(this.getDataFieldValue('login').value)
         passwordInput.value = this.getDataFieldValue('password').value;
         emailInput.value = this.getDataFieldValue('email').value;
+        this.constructor.editingRow = this.currentRow;
     }
 
     deleteUser() {
         userListTbody.removeChild(this.currentRow);
+        
         let id = this.currentRow.children[0].textContent;
         id--;
         User.userList.splice(id, 1);
@@ -199,7 +205,7 @@ class User {
 
 document.addEventListener('click', function (e) {
     function getUserById(target) {
-        this.currentRow = target;
+        User.currentRow = target;
         let id = target.children[0].textContent;
         userObj = User.userList[--id];
         return userObj;
@@ -230,7 +236,7 @@ document.addEventListener('click', function (e) {
             userObj.deleteUser();
             break;
         case 'edit-user_button':
-            userObj = getUserById(this.currentRow);
+            userObj = getUserById(User.currentRow);
             userObj.markEditingFields();
             userObj.changeAddBtn();
             break;

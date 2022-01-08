@@ -8,10 +8,6 @@ body{
     color: rgb(48, 0, 82);
 }
 
-tr{
-    display: flex;
-    justify-content: space-around;
-}
 
 table {
     width: 100%; 
@@ -30,6 +26,7 @@ table td {
 
 table tr {
     border-bottom: 1px solid #b399ac;
+    text-align: center;
 }
 
 
