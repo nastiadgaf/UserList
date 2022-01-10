@@ -23,7 +23,7 @@ class User {
     }
 
     static editingRow = null;
-    static userList = []
+    static userList = [];
 
     dataFields = [{
             objName: 'login',
@@ -56,17 +56,12 @@ class User {
     }
 
     getDataFieldValue(name) {
-        const {
-            dataFields
-        } = this;
+        const {dataFields} = this;
         return dataFields.find(field => field.objName === name)
     }
 
     fillUserRow() {
-        const {
-            userList
-        } = this.constructor;
-
+        const {userList} = this.constructor;
 
         let tableCells = [{
                 name: 'id',
@@ -115,22 +110,6 @@ class User {
         emailInput.value = '';
     }
 
-    
-    request() {
-        this.markValidateFields();
-        if (this.checkFields()) {
-            this.createUserRow();
-            question.classList.add('question_hide');
-            question.classList.remove('question_show');
-            this.clearInputs();
-        } else {
-            User.userList.pop(this);
-            question.classList.remove('question_hide');
-            question.classList.add('question_show');
-        }
-    }
-
-
     checkFields() {
         let isAllCorrect = true;
         for (let field of this.dataFields) {
@@ -139,30 +118,16 @@ class User {
 
             if (isCorrect) continue;
             isAllCorrect = false;
-            break
+            break;
         }
         return isAllCorrect;
-
     }
-
 
     markValidateFields() {
         for (let exp of this.dataFields) {
             let isValid = exp.value.match(exp.regExp);
             let hasInvalidClass = exp.element.classList.contains('wrong');
             if (!isValid ^ hasInvalidClass) exp.element.classList.toggle('wrong');
-        }
-    }
-
-    markEditingFields() {
-        this.markValidateFields()
-        if (this.checkFields()) {
-            this.finishEditingUser();
-            question.classList.add('question_hide');
-            question.classList.remove('question_show');
-        } else {
-            question.classList.remove('question_hide');
-            question.classList.add('question_show');
         }
     }
 
@@ -185,7 +150,6 @@ class User {
             field.value = field.cell.textContent;
         }
         this.clearInputs();
-
     }
 
     deleteUser() {
@@ -212,6 +176,16 @@ class User {
         }
     }
 
+    showQuestion() {
+        question.classList.remove('question_hide');
+        question.classList.add('question_show');
+    }
+
+    hideQuestion() {
+        question.classList.add('question_hide');
+        question.classList.remove('question_show');
+    }
+
 }
 
 document.addEventListener('click', function (e) {
@@ -235,7 +209,17 @@ document.addEventListener('click', function (e) {
     switch (currentType) {
         case 'submit_button':
             userObj = new User();
-            userObj.request();
+            userObj.markValidateFields();
+            if (userObj.checkFields()) {
+                userObj.createUserRow();
+                userObj.hideQuestion();
+                userObj.clearInputs();
+                console.log(User.userList)
+            } else {
+                User.userList.pop(this);
+                console.log(User.userList)
+                userObj.showQuestion();
+            }
             break;
         case 'edit_button':
             userObj = getUserById(e.target.closest('tr'));
@@ -249,7 +233,14 @@ document.addEventListener('click', function (e) {
         case 'edit-user_button':
             userObj = getUserById(User.currentRow);
             userObj.changeInputValue();
-            userObj.markEditingFields();
+            userObj.markValidateFields();
+
+            if (userObj.checkFields()) {
+                userObj.finishEditingUser();
+                userObj.hideQuestion();
+            } else {
+                userObj.showQuestion();
+            };
             userObj.changeAddBtn();
             break;
         case 'close':
