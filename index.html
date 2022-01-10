@@ -10,15 +10,18 @@
 </head>
 
 <body>
-    <section id="form">
-        <p class="text">Login</p>
-        <input type="text" id="login-input" class="input">
-        <p class="text">Password</p>
-        <input type="password" id="password-input" class="input">
-        <p class="text">Email address</p>
-        <input type="text" id="email-input" class="input"><br>
-        <input type="submit" value="Add User" id="submit" class="submit_button">
-        <input type="submit" value="Edit User" class=" edit-user_button hidden">
+    <section id="user-form">
+        <form id="form">
+            <label for="login-input" class="text">Login</label>
+            <input type="text" id="login-input" class="input">
+            <label for="password-input" class="text">Password</label>
+            <input type="password" id="password-input" class="input">
+            <label for="email-input" class="text">Email address</label>
+            <input type="text" id="email-input" class="input">
+        </form>
+
+        <button type="button" id="submit" class="submit_button">Add User</button>
+        <button type="button" class=" edit-user_button hidden">Edit User</button>
         <button class="question question_hide">
             <p class="question_mark ">?</p>
         </button>
@@ -38,20 +41,19 @@
             </tbody>
         </table>
     </section>
-    <section>
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close" data-close="close">&times;</span>
-                <h3 class="main">Ваш логин должен быть:</h3>
-                <p> - cлово латинскими буквами длиной от 2 до 20. Цифры и другие символы не допускаются.</p>
-                <h3 class="main">Ваш пароль должен быть:</h3>
-                <p> - от 8 до 15 латинских букв, цифр и нижних подчеркиваний</p>
-                <h3 class="main">Ваш адрес электронной почты дожен быть:</h3>
-                <p> - имя пользователя и домен, разделенные символом '@'. Обе части состоят из слов, разделенных '.'.
-                    Слова состоят из латинских букв, цифр и нижних подчеркиваний.</p>
-            </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-close="close">&times;</span>
+            <h3 class="main">Ваш логин должен быть:</h3>
+            <p> - cлово латинскими буквами длиной от 2 до 20. Цифры и другие символы не допускаются.</p>
+            <h3 class="main">Ваш пароль должен быть:</h3>
+            <p> - от 8 до 15 латинских букв, цифр и нижних подчеркиваний</p>
+            <h3 class="main">Ваш адрес электронной почты дожен быть:</h3>
+            <p> - имя пользователя и домен, разделенные символом '@'. Обе части состоят из слов, разделенных '.'.
+                Слова состоят из латинских букв, цифр и нижних подчеркиваний.</p>
         </div>
-    </section>
+    </div>
     <script src="script.js"></script>
 </body>
 

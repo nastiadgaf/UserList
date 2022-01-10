@@ -214,10 +214,8 @@ document.addEventListener('click', function (e) {
                 userObj.createUserRow();
                 userObj.hideQuestion();
                 userObj.clearInputs();
-                console.log(User.userList)
             } else {
                 User.userList.pop(this);
-                console.log(User.userList)
                 userObj.showQuestion();
             }
             break;

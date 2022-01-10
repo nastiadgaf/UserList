@@ -9,6 +9,24 @@ body {
     color: rgb(48, 0, 82);
 }
 
+#form{
+    display: flex;
+    flex-direction: column;
+}
+
+.user-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.text{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+button{
+    cursor: pointer;
+}
 
 table {
     width: 100%;
