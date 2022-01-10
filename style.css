@@ -29,6 +29,7 @@ button{
 }
 
 table {
+    min-width: 870px;
     width: 100%;
     border-collapse: collapse;
     background: rgb(252, 234, 234);

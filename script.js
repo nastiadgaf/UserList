@@ -186,6 +186,13 @@ class User {
         question.classList.remove('question_show');
     }
 
+    removeInputWrongClass(){
+        const inputs = document.querySelectorAll('.input')
+
+        inputs.forEach(input => {
+                input.classList.remove('wrong')
+        })
+    }
 }
 
 document.addEventListener('click', function (e) {
@@ -221,12 +228,14 @@ document.addEventListener('click', function (e) {
             break;
         case 'edit_button':
             userObj = getUserById(e.target.closest('tr'));
+            userObj.removeInputWrongClass();
             userObj.startEditingUser();
             userObj.changeEditBtn();
             break;
         case 'delete_button':
             userObj = getUserById(e.target.closest('tr'));
             userObj.deleteUser();
+            userObj.removeInputWrongClass();
             break;
         case 'edit-user_button':
             userObj = getUserById(User.currentRow);
