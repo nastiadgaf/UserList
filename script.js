@@ -30,19 +30,21 @@ class User {
             value: loginInput.value,
             regExp: /[a-zA-Z]{1,20}$/,
             element: loginInput,
+            cell: null
         },
         {
             objName: 'password',
             value: passwordInput.value,
             regExp: /(?=.*[0-9])(?=.*[a-z_])(?=.*[A-Z]){8,15}/g,
             element: passwordInput,
+            cell: null
         },
         {
             objName: 'email',
             value: emailInput.value,
             regExp: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
             element: emailInput,
-
+            cell: null
         }
     ]
 
@@ -53,14 +55,18 @@ class User {
         this.fillUserRow();
     }
 
-    getDataFieldValue(name){
-        const {dataFields} = this;
+    getDataFieldValue(name) {
+        const {
+            dataFields
+        } = this;
         return dataFields.find(field => field.objName === name)
     }
 
     fillUserRow() {
-        const {userList} = this.constructor;
-        
+        const {
+            userList
+        } = this.constructor;
+
 
         let tableCells = [{
                 name: 'id',
@@ -95,8 +101,8 @@ class User {
             cell.innerHTML = dataObject.value;
             this.userRow.append(cell);
 
-            for(let field of this.dataFields){
-                if(field.objName === dataObject.name) field["cell"] = cell;
+            for (let field of this.dataFields) {
+                if (field.objName === dataObject.name) field.cell = cell;
             }
         }
 
@@ -109,30 +115,7 @@ class User {
         emailInput.value = '';
     }
 
-    checkFields() {
-        let isAllCorrect = true;
-        for(let field of this.dataFields){
-            
-            const {value, regExp} = field;
-            console.log(field)
-            const isCorrect = value.match(regExp);
-
-            if(isCorrect) continue;
-            isAllCorrect = false;
-            break
-        }
-        return isAllCorrect;
-    }
-
-
-    markValidateFields() {
-        for (let exp of this.dataFields) {
-            let isValid = exp.value.match(exp.regExp);
-            let hasInvalidClass = exp.element.classList.contains('wrong');
-            if (!isValid ^ hasInvalidClass) exp.element.classList.toggle('wrong');
-        }
-    }
-
+    
     request() {
         this.markValidateFields();
         if (this.checkFields()) {
@@ -147,33 +130,62 @@ class User {
         }
     }
 
+
+    checkFields() {
+        let isAllCorrect = true;
+        for (let field of this.dataFields) {
+            const {value,regExp} = field;
+            const isCorrect = value.match(regExp);
+
+            if (isCorrect) continue;
+            isAllCorrect = false;
+            break
+        }
+        return isAllCorrect;
+
+    }
+
+
+    markValidateFields() {
+        for (let exp of this.dataFields) {
+            let isValid = exp.value.match(exp.regExp);
+            let hasInvalidClass = exp.element.classList.contains('wrong');
+            if (!isValid ^ hasInvalidClass) exp.element.classList.toggle('wrong');
+        }
+    }
+
     markEditingFields() {
         this.markValidateFields()
         if (this.checkFields()) {
-            console.log(1)
             this.finishEditingUser();
-        } else{
+            question.classList.add('question_hide');
+            question.classList.remove('question_show');
+        } else {
             question.classList.remove('question_hide');
             question.classList.add('question_show');
         }
+    }
+
+    changeInputValue() {
+        this.getDataFieldValue('login').value = loginInput.value;
+        this.getDataFieldValue('password').value = passwordInput.value;
+        this.getDataFieldValue('email').value = emailInput.value;
+    }
+
+    startEditingUser() {
+        loginInput.value = this.getDataFieldValue('login').value;
+        passwordInput.value = this.getDataFieldValue('password').value;
+        emailInput.value = this.getDataFieldValue('email').value;
+        this.constructor.editingRow = this.currentRow;
     }
 
     finishEditingUser() {
         for (let field of this.dataFields) {
             field.cell.textContent = field.element.value;
             field.value = field.cell.textContent;
-            
         }
         this.clearInputs();
 
-    }
-
-    startEditingUser() {
-        loginInput.value = this.getDataFieldValue('login').value;
-        console.log(this.getDataFieldValue('login').value)
-        passwordInput.value = this.getDataFieldValue('password').value;
-        emailInput.value = this.getDataFieldValue('email').value;
-        this.constructor.editingRow = this.currentRow;
     }
 
     deleteUser() {
@@ -194,7 +206,7 @@ class User {
     }
 
     changeAddBtn() {
-        if(loginInput.value === '' && passwordInput.value === '' && emailInput.value === ''){
+        if (loginInput.value === '' && passwordInput.value === '' && emailInput.value === '') {
             submitButton.classList.remove('hidden');
             editBtn.classList.add('hidden');
         }
@@ -214,8 +226,8 @@ document.addEventListener('click', function (e) {
 
     let currentType;
 
-    for(let type of actionTypes){
-        if(e.target.classList.contains(type)) currentType = type;
+    for (let type of actionTypes) {
+        if (e.target.classList.contains(type)) currentType = type;
     }
 
     let userObj;
@@ -236,6 +248,7 @@ document.addEventListener('click', function (e) {
             break;
         case 'edit-user_button':
             userObj = getUserById(User.currentRow);
+            userObj.changeInputValue();
             userObj.markEditingFields();
             userObj.changeAddBtn();
             break;
